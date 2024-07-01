@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebviewContent</title>
+</head>
+<style>
+    .package_path{
+        width: 50vw;
+        background-color: rgb(43, 43, 44);
+        color: aliceblue;
+        border: solid 1px rgb(170, 170, 170);
+        font-size: 14pt;
+        padding: 5px;
+        border-radius: 3px;
+    }
+
+    .text{
+        width: 90vw;
+        height: auto;
+        background-color: rgb(43, 43, 44);
+        color: aliceblue;
+    }
+    
+    .create_button{
+        padding: 5px;
+        border: solid 1px rgb(170, 170, 170);
+        background-color: rgb(38, 38, 43);
+        color: aliceblue;
+        border-radius: 5px;
+        font-size: 13pt;
+        width: 130px;
+        height: 45px;
+    }
+    .create_button:hover{
+        cursor: pointer;
+        font-size: 13.2pt;
+    }
+    hr{
+        margin: 20px 0;
+        width: 100%;
+        
+    }
+</style>
+<body>
+    <h1>Pinwheel Success</h1>
+    <button id="createBtn" class="create_button">All Create</button>
+    <h3>package path: src/main/java/#{artifactId}/{path}</h6>
+    <input id="packageInput" class="package_path" type="text" placeholder="...path" />
+    <hr/>
+    <h2>#{controllerTitle}</h2>
+    <textarea class="text" readonly>#{controllerText}</textarea>
+    <hr/>
+    <h2>#{serviceTitle}</h2>
+    <textarea class="text" readonly>#{serviceText}</textarea>
+    <hr/>
+    <h2>#{serviceImplTitle}</h2>
+    <textarea class="text" readonly>#{serviceImplText}</textarea>
+    <hr/>
+    <h2>#{repositoryTitle}</h2>
+    <textarea class="text" readonly>#{repositoryText}</textarea>
+    <hr/>
+    <h2>#{modelTitle}</h2>
+    <textarea class="text" readonly>#{modelText}</textarea>
+    <hr/>
+    <h2>#{xmlTitle}</h2>
+    <textarea class="text" readonly>#{xmlText}</textarea>
+
+    <script type="text/javascript">
+        window.onload = ()=>{
+            let textareaList = document.querySelectorAll(".text");
+            for(const textarea of textareaList){
+                textarea.style.height = 'auto'; //height 초기화
+                const height = textarea.scrollHeight > 600 ? 600 : textarea.scrollHeight;
+                textarea.style.height = `${height}px`;
+            }
+
+            const vscode = acquireVsCodeApi();
+            const createBtn = document.querySelector("#createBtn").addEventListener('click', (e)=>{
+                const packagePath = document.querySelector("#packageInput").value;
+                let command = null;
+                let text = null;
+                if(!packagePath){
+                    command = "requiredPackagePath",
+                    text = "Required package path"
+                }else{
+                    command = "create",
+                    text = packagePath
+                }
+                vscode.postMessage({
+                    command: command,
+                    text: text
+                })
+            });
+        };
+    </script>
+</body>
+</html>

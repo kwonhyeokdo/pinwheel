@@ -1,0 +1,103 @@
+{
+    "name": "pinwheel",
+    "displayName": "Pinwheel",
+    "description": "auto create spring mvc code",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.90.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "pinwheel.helloWorld",
+                "title": "Hello World"
+            },
+            {
+                "command": "pinwheel.addEntry",
+                "title": "Add",
+                "icon":{
+                    "light": "resources/icon/add_light.svg",
+                    "dark": "resources/icon/add_dark.svg"
+                }
+            },
+            {
+                "command": "pinwheel.refreshEntry",
+                "title": "Refresh",
+                "icon":{
+                    "light": "resources/icon/refresh_light.svg",
+                    "dark": "resources/icon/refresh_dark.svg"
+                }
+            },
+            {
+                "command": "pinwheel.runEntry",
+                "title": "run",
+                "icon": {
+                    "light": "resources/icon/run_light.svg",
+                    "dark": "resources/icon/run_dark.svg"
+                }
+            }
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "pinwheelContainer",
+                    "title": "pinwheel", 
+                    "icon": "resources/icon/pinwheel.svg"
+                }
+            ]
+        },
+        "views": {
+            "pinwheelContainer": [
+                {
+                    "id": "pinwheel_list",
+                    "name": "List"
+                }
+            ]
+        },
+        "menus":{
+            "view/title": [
+                {
+                    "command": "pinwheel.addEntry",
+                    "when": "view == pinwheel_list",
+                    "group": "action"
+                },
+                {
+                    "command": "pinwheel.refreshEntry",
+                    "when": "view == pinwheel_list",
+                    "group": "action"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "pinwheel.runEntry",
+                    "when": "view == pinwheel_list && viewItem == pinwheelTreeItem",
+                    "group": "inline"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src --ext ts",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.90.0",
+        "@types/mocha": "^10.0.6",
+        "@types/node": "20.x",
+        "@typescript-eslint/eslint-plugin": "^7.11.0",
+        "@typescript-eslint/parser": "^7.11.0",
+        "eslint": "^8.57.0",
+        "typescript": "^5.4.5",
+        "@vscode/test-cli": "^0.0.9",
+        "@vscode/test-electron": "^2.4.0"
+    }
+}
